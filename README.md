@@ -16,14 +16,31 @@ Here is a [list with the details and usage instruction for all the features](./d
 
 ## Installation
 
-Installing this config folder should not be too complicated if you are already familiar with the Klipper ecosystem. Here is how:
-  1. Use an SSH connection to connect to your printer and type the following command to run the install script. This should backup your old configuration, then download and replace it by my configuration and finally set up the environment for you.
+Installing this configuration should not be too complicated if you are already familiar with the Klipper ecosystem. Here is how:
+  1. First, make sure you have Klipper, Moonraker, and a WebUI is installed on your printer. You can use [KIAUH](https://github.com/th33xitus/kiauh) if you don't.
+  2. To run the installation script, connect to your printer using SSH and type the following command:
 
      ```
-     wget -O - https://raw.githubusercontent.com/Frix-x/klipper-voron-V2/main/install.sh | bash
+     wget -qO /tmp/install.sh https://raw.githubusercontent.com/Frix-x/klipper-voron-V2/main/install.sh && bash /tmp/install.sh
      ```
   
-  3. TODO: write how to setup the printer.cfg, wiring.cfg, overrides.cfg, ...
+  3. This will backup your old configuration, download this repo into your home directory and install the environment in your `~/printer_data/config` folder. You'll also be asked if you want to select and install some MCU board_pins templates. This is recommended as it will allow a very quick filling of your `mcu.cfg` user file, but you can always do it manually afterwards if you prefer (see [MCU pinout and wiring documentation](./docs/pinout.md)).
+  4. Add the serial_port and/or can_uuid of your MCUs to the `mcu.cfg` file. Please refer to the [official klipper documentation](https://www.klipper3d.org/FAQ.html#wheres-my-serial-port) to find them.
+  5. Open the `printer.cfg` file and uncomment the lines that correspond to your printer hardware in order to enable the required components and software (such as extruder type, XY motors, Z motors, QGL vs Z_TILT, etc...).
+  6. Then it's time to customize the configuration by editing the `overrides.cfg` user file. For example, you can tweak the dimensions, limits, currents, and all the other values from all config sections. **Pay special attention to the axis limits** in the `[stepper_...]` sections (files located in [config/hardware/axis](./config/hardware/axis/)). Also check the thermistor types in `[extruder]` and `[heated_bed]`, the plate size in `[bed_mesh]`, and so on. Include any modifications in your `overrides.cfg` and **never modify my config directly** as they will be deleted when the repo updated!
+  7. Modify and adapt the `variables.cfg` file to suit the configuration of your machine. This file helps to configure and customize how all the macros should behave (coordinates of everything, enable/disable some software features, etc...).
+  8. **Check all features very carefully to avoid any problems on your machine!** You can follow the [config checks from the official Klipper documentation](https://www.klipper3d.org/Config_checks.html). Then, also check that you are able to attach/detach the mechanical probe (if you use one), do the QGL/Z_TILT, have correct coordinates for all the components used (purge bucket, physical Z endstop, etc...). You should also check your first layer calibration (and the `switch_offset` parameter of the automatic z calibration plugin if you use it), etc...
+  9. Finally when everything seems to work, you need to add the custom print start gcode to your slicer. Here is an example for SuperSlicer:
+     
+     ```
+     START_PRINT EXTRUDER_TEMP={first_layer_temperature[initial_extruder] + extruder_temperature_offset[initial_extruder]} BED_TEMP=[first_layer_bed_temperature] MATERIAL=[filament_type] CHAMBER=[chamber_temperature] SIZE={first_layer_print_min[0]}_{first_layer_print_min[1]}_{first_layer_print_max[0]}_{first_layer_print_max[1]}
+     ```
+     
+     Also add the custom print end gcode to your slicer:
+
+     ```
+     END_PRINT
+     ```
 
 
 ## Sponsor the work
