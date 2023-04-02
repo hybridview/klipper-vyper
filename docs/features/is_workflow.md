@@ -18,15 +18,15 @@ Results can be found in the [ADXL results folder](./../../adxl_results/) that is
 
 ## Installation
 
-  1. Copy the [vibr_calibrate_01.cfg](./../../macros/calibration/vibr_calibrate_01.cfg) macro file directly into your own config.
+  1. Copy the [IS_shaper_calibrate.cfg](./../../macros/calibration/IS_shaper_calibrate.cfg) macro file directly into your own config.
   2. Be sure to have the `gcode_shell_command.py` Klipper extension installed. Easiest way to install it is to use the advanced section of KIAUH.
   3. Add my [scripts](./../../scripts/) folder at the root of your own config (ie. in your `~/printer_data/config/` directory).
      
      Note: if using Windows to do the copy/paste of the files, be careful with the line endings for the `plot_graphs.sh` file and the `graph_vibrations.py` file: **Linux line endings (LF or \n) are mandatory!** If the file are using Windows line endings, you will get errors like `\r : unknown command` when running the script. If you're not confident regarding your text editor behavior, the best way is to directly download the files on the pi by using for example wget over SSH:
      
      ```
-     wget -P ~/printer_data/config/scripts https://raw.githubusercontent.com/Frix-x/klipper-voron-V2/main/scripts/plot_graphs.sh
-     wget -P ~/printer_data/config/scripts https://raw.githubusercontent.com/Frix-x/klipper-voron-V2/main/scripts/graph_vibrations.py
+     wget -P ~/printer_data/config/scripts https://raw.githubusercontent.com/Frix-x/klippain/main/scripts/plot_graphs.sh
+     wget -P ~/printer_data/config/scripts https://raw.githubusercontent.com/Frix-x/klippain/main/scripts/graph_vibrations.py
      ```
 
   4. Make the scripts executable using SSH. When in the folder, use:
